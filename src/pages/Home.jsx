@@ -75,8 +75,9 @@ const Home = () => {
         alignItems: "center",
         // padding: 4,/
         maxWidth: "100%",
+        minHeight: "100vh",
         padding: { xs: 2, sm: 4 },
-        boxShadow: 1,
+        // boxShadow: 1,
       }}
     >
       <Typography

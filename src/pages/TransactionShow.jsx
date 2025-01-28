@@ -80,7 +80,7 @@ const TransactionShow = ({ selectedType }) => {
         backgroundColor: "#f9f9f9",
         //   padding: 3,
         borderRadius: 2,
-        boxShadow: 1,
+        // boxShadow: 1,
         mb: 4,
       }}
     >

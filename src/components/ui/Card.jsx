@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
+import PropTypes from "prop-types";
 import { FinanceState } from "../../context/FinanceProvider";
 
 function SelectActionCard({ onCardClick }) {
@@ -71,5 +72,8 @@ function SelectActionCard({ onCardClick }) {
     </Box>
   );
 }
+SelectActionCard.propTypes = {
+  onCardClick: PropTypes.func.isRequired,
+};
 
 export default SelectActionCard;

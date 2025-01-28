@@ -1,107 +1,133 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { FinanceState } from "../context/FinanceProvider";
+import { useState } from "react";
+import PropTypes from "prop-types";
 
-// import React from "react";
 const TransactionShow = () => {
+  const { expense, setExpense, income, setIncome } = FinanceState();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Filter transactions based on the search query
+  const filteredTransactions = {
+    income: income.filter((item) =>
+      item.description.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+    expense: expense.filter((item) =>
+      item.description.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+  };
+
+  // Function to delete a transaction
+  const deleteTransaction = (type, index) => {
+    if (type === "income") {
+      setIncome((prev) => prev.filter((_, i) => i !== index));
+    } else {
+      setExpense((prev) => prev.filter((_, i) => i !== index));
+    }
+  };
+
+  // Reusable TransactionItem component
+  const TransactionItem = ({ type, item, index }) => (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 2,
+        backgroundColor: type === "income" ? "#e8f5e9" : "#ffebee",
+        borderRadius: 2,
+        mb: 1,
+      }}
+    >
+      <Typography
+        variant="body1"
+        sx={{ fontWeight: "bold", color: type === "income" ? "green" : "red" }}
+      >
+        {type === "income" ? "+" : "-"} ${item.amount} - {item.description}
+      </Typography>
+      <Button
+        variant="outlined"
+        color="error"
+        size="small"
+        onClick={() => deleteTransaction(type, index)}
+      >
+        Delete
+      </Button>
+    </Box>
+  );
+
+  TransactionItem.propTypes = {
+    type: PropTypes.string.isRequired,
+    item: PropTypes.shape({
+      amount: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+    }).isRequired,
+    index: PropTypes.number.isRequired,
+  };
+
   return (
-    <div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: 4,
+        maxWidth: "100%",
+        backgroundColor: "#f9f9f9",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          padding: 4,
-          maxWidth: "100%",
-          backgroundColor: "#f9f9f9",
+          width: "100%",
+          maxWidth: 400,
+          backgroundColor: "#fff",
+          padding: 3,
+          borderRadius: 2,
+          boxShadow: 1,
+          mb: 4,
         }}
       >
-        {/* Show Transaction Form */}
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            maxWidth: 400,
-            backgroundColor: "#fff",
-            padding: 3,
-            borderRadius: 2,
-            // boxShadow: 1,
-            mb: 4,
-          }}
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: "bold", mb: 2, color: "#333" }}
         >
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: "bold",
-              mb: 2,
-              color: "#333",
-              //   backgroundColor: "lightgray",
-              padding: 2,
-              //   borderRadius: 2,
-              //   boxShadow: 1,
-            }}
-          >
-            {" "}
-            Transactions{" "}
-          </Typography>{" "}
-          <TextField
-            placeholder="Search..."
-            sx={{
-              //   fontWeight: "bold",
-              mb: 4,
-              color: "#333",
-              placeholder: "Search...",
-              backgroundColor: "lightgray",
-              //   padding: 2,
-              borderRadius: 2,
-              //   boxShadow: 1,
-            }}
-          />
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2,
-              mb: 2,
-              color: "#333",
-              backgroundColor: "lightgray",
-              paddingX: "10px",
-              paddingY: "10px",
-              justifyContent: "center", // Adjusted for centering
-              alignItems: "center",
-              borderRadius: "10px",
-            }}
-          >
-            <Typography
-              variant="outlined"
-              sx={{
-                flex: 1,
-                textAlign: "center", // Center text within each Typography
-                color: "#333",
-                cursor: "pointer", // Add pointer for clickable effect
-              }}
-              onClick={() => console.log("Expense Selected")}
-            >
-              Expense
-            </Typography>
-            <Typography
-              variant="outlined"
-              sx={{
-                flex: 1,
-                textAlign: "center", // Center text within each Typography
-                color: "#333",
-                cursor: "pointer", // Add pointer for clickable effect
-              }}
-              onClick={() => console.log("Income Selected")}
-            >
-              Income
-            </Typography>
-          </Box>
-          {/* <Button variant="contained" fullWidth>
-            Add Transaction
-          </Button> */}
+          Transactions
+        </Typography>
+        <TextField
+          placeholder="Search transactions..."
+          variant="outlined"
+          fullWidth
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{ mb: 3 }}
+        />
+        <Box sx={{ width: "100%", maxWidth: 600 }}>
+          {filteredTransactions.income.length > 0
+            ? filteredTransactions.income.map((item, index) => (
+                <TransactionItem
+                  key={index}
+                  type="income"
+                  item={item}
+                  index={index}
+                />
+              ))
+            : null}
+
+          {filteredTransactions.expense.length > 0
+            ? filteredTransactions.expense.map((item, index) => (
+                <TransactionItem
+                  key={index}
+                  type="expense"
+                  item={item}
+                  index={index}
+                />
+              ))
+            : null}
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 

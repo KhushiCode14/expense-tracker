@@ -1,77 +1,66 @@
-import { useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
-
-const cards = [
-  {
-    id: 1,
-    title: "Expense",
-    description: "Plants are essential for all life.",
-  },
-  {
-    id: 2,
-    title: "Income",
-    description: "Animals are a part of nature.",
-  },
-  {
-    id: 3,
-    title: "Humans",
-    description: "Humans depend on plants and animals for survival.",
-  },
-];
+import { FinanceState } from "../../context/FinanceProvider";
 
 function SelectActionCard() {
-  const [selectedCard, setSelectedCard] = useState(0);
+  const { income, expense } = FinanceState();
+  const totalIncome = income.reduce((sum, item) => sum + item.amount, 0);
+  const totalExpense = expense.reduce((sum, item) => sum + item.amount, 0);
 
   return (
     <Box
       sx={{
-        width: "100%",
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(min(200px, 100%), 1fr))",
+        // width: "100%",
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" }, // Stack on small screens, row on medium and up
+        justifyContent: "center",
+        alignItems: "center",
         gap: 2,
-        p: 2,
+        padding: 2,
+        maxWidth: "100%",
       }}
     >
-      {cards.map((card, index) => (
-        <Card
-          key={card.id}
-          sx={{
-            border: selectedCard === index ? "2px solid #1976d2" : "none",
-            transition: "border 0.3s",
-          }}
-        >
-          <CardActionArea
-            onClick={() => setSelectedCard(index)}
-            data-active={selectedCard === index ? "" : undefined}
-            sx={{
-              height: "100%",
-              "&[data-active]": {
-                backgroundColor: "action.selected",
-                "&:hover": {
-                  backgroundColor: "action.selectedHover",
-                },
-              },
-            }}
-          >
-            <CardContent sx={{ height: "100%" }}>
-              <Typography
-                variant="h5"
-                component="div"
-                sx={{ fontWeight: "bold" }}
-              >
-                {card.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {card.description}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      ))}
+      <Card
+        sx={{
+          minWidth: 275,
+          maxWidth: "100%",
+          backgroundColor: "#e8f5e9",
+          flex: 1,
+        }}
+      >
+        <CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              Income
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Total Income: ${totalIncome}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+      <Card
+        sx={{
+          minWidth: 275,
+          maxWidth: "100%",
+          backgroundColor: "#ffebee",
+          flex: 1,
+        }}
+      >
+        <CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              Expense
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Total Expense: ${totalExpense}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
     </Box>
   );
 }

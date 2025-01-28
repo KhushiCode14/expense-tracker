@@ -69,63 +69,59 @@ const TransactionShow = () => {
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
-        padding: 4,
+        flexDirection: "column",
+        //   display: "flex",
+        //   flexDirection: "column",
+        padding: { xs: 2, sm: 4 },
+        // padding: 4,
         maxWidth: "100%",
+        width: "100%",
+        //   maxWidth: 800,
+        //   backgroundColor: "#fff",
         backgroundColor: "#f9f9f9",
+        //   padding: 3,
+        borderRadius: 2,
+        boxShadow: 1,
+        mb: 4,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          maxWidth: 400,
-          backgroundColor: "#fff",
-          padding: 3,
-          borderRadius: 2,
-          boxShadow: 1,
-          mb: 4,
-        }}
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: "bold", mb: 2, color: "#333" }}
       >
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: "bold", mb: 2, color: "#333" }}
-        >
-          Transactions
-        </Typography>
-        <TextField
-          placeholder="Search transactions..."
-          variant="outlined"
-          fullWidth
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{ mb: 3 }}
-        />
-        <Box sx={{ width: "100%", maxWidth: 600 }}>
-          {filteredTransactions.income.length > 0
-            ? filteredTransactions.income.map((item, index) => (
-                <TransactionItem
-                  key={index}
-                  type="income"
-                  item={item}
-                  index={index}
-                />
-              ))
-            : null}
+        Transactions
+      </Typography>
+      <TextField
+        placeholder="Search transactions..."
+        variant="outlined"
+        fullWidth
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        sx={{ mb: 3 }}
+      />
+      <Box sx={{ width: "100%", maxWidth: 600 }}>
+        {filteredTransactions.income.length > 0
+          ? filteredTransactions.income.map((item, index) => (
+              <TransactionItem
+                key={index}
+                type="income"
+                item={item}
+                index={index}
+              />
+            ))
+          : null}
 
-          {filteredTransactions.expense.length > 0
-            ? filteredTransactions.expense.map((item, index) => (
-                <TransactionItem
-                  key={index}
-                  type="expense"
-                  item={item}
-                  index={index}
-                />
-              ))
-            : null}
-        </Box>
+        {filteredTransactions.expense.length > 0
+          ? filteredTransactions.expense.map((item, index) => (
+              <TransactionItem
+                key={index}
+                type="expense"
+                item={item}
+                index={index}
+              />
+            ))
+          : null}
       </Box>
     </Box>
   );

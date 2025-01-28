@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { FinanceState } from "../context/FinanceProvider";
-
+import SelectActionCard from "../components/ui/Card";
+import TransactionShow from "./TransactionShow";
 const Home = () => {
   const [showAddTransaction, setShowAddTransaction] = useState(false);
 
@@ -47,8 +48,10 @@ const Home = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: 4,
+        // padding: 4,/
         maxWidth: "100%",
+        padding: { xs: 2, sm: 4 },
+        boxShadow: 1,
       }}
     >
       <Typography
@@ -62,6 +65,7 @@ const Home = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          flexDirection: { xs: "column", sm: "row" },
           alignItems: "center",
           width: "100%",
           maxWidth: 400,
@@ -82,6 +86,7 @@ const Home = () => {
         </Typography>
         <Button
           variant="contained"
+          sx={{ width: { xs: "100%", sm: "auto" } }}
           onClick={() => setShowAddTransaction((prev) => !prev)}
         >
           {showAddTransaction ? "Cancel" : "Add"}
@@ -137,6 +142,13 @@ const Home = () => {
           </Box>
         </Box>
       )}
+      <Box sx={{ width: "100%", maxWidth: "100%" }}>
+        {/* <TransactionShow /> */}
+        <SelectActionCard />
+      </Box>
+      <Box sx={{ width: "100%", maxWidth: "100%" }}>
+        <TransactionShow />
+      </Box>
     </Box>
   );
 };

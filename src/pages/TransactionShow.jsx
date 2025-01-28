@@ -8,8 +8,16 @@ const TransactionShow = ({ selectedType }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter transactions based on the search query
-  const filteredTransactions = (type) => {
-    const transactions = type === "income" ? income : expense;
+  const filteredTransactions = () => {
+    let transactions = [];
+    if (selectedType === "income") {
+      transactions = income;
+    } else if (selectedType === "expense") {
+      transactions = expense;
+    } else {
+      transactions = [...income, ...expense]; // Show all transactions if no type is selected
+    }
+
     return transactions.filter((item) =>
       item.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -59,10 +67,12 @@ const TransactionShow = ({ selectedType }) => {
     item: PropTypes.shape({
       amount: PropTypes.number.isRequired,
       description: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      //   amount: PropTypes.number.isRequired,
     }).isRequired,
     index: PropTypes.number.isRequired,
   };
-
+  //   const transactionsToShow = filteredTransactions();
   return (
     <Box
       sx={{
@@ -135,6 +145,24 @@ const TransactionShow = ({ selectedType }) => {
           </>
         )}
       </Box>
+      {/* <Box sx={{ width: "100%", maxWidth: 600 }}>
+        {transactionsToShow.length > 0
+          ? transactionsToShow.map((item, index) => (
+              <TransactionItem
+                key={index}
+                sx={{
+                  border: "1px solid #ccc",
+                  borderRadius: 2,
+                  mb: 1,
+                  // border: "1px solid #ccc",
+                }}
+                type={item.amount > 0 ? "income" : "expense"} // Determine type based on amount
+                item={item}
+                index={index}
+              />
+            ))
+          : null}
+      </Box> */}
       {/* <Box sx={{ width: "100%", maxWidth: 600 }}>
         {filteredTransactions.income.length > 0
           ? filteredTransactions.income.map((item, index) => (

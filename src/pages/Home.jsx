@@ -4,7 +4,9 @@ import { FinanceState } from "../context/FinanceProvider";
 import SelectActionCard from "../components/ui/Card";
 import TransactionShow from "./TransactionShow";
 const Home = () => {
+  // const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [showAddTransaction, setShowAddTransaction] = useState(false);
+  const [selectedType, setSelectedType] = useState(null);
 
   const {
     income,
@@ -20,7 +22,6 @@ const Home = () => {
   const totalIncome = income.reduce((sum, item) => sum + item.amount, 0);
   const totalExpense = expense.reduce((sum, item) => sum + item.amount, 0);
   const balanceIncome = totalIncome - totalExpense;
-
   const handleTransaction = (type) => {
     if (amount > 0 && description.trim()) {
       if (type === "income") {
@@ -41,6 +42,30 @@ const Home = () => {
       alert("Please enter a valid amount and description.");
     }
   };
+
+  const handleCardClick = (type) => {
+    setSelectedType(type); // Set the selected type (income or expense)
+  };
+  // const handleTransaction = (type) => {
+  //   if (amount > 0 && description.trim()) {
+  //     if (type === "income") {
+  //       setIncome((prev) => [
+  //         ...prev,
+  //         { amount: parseFloat(amount), description },
+  //       ]);
+  //     } else {
+  //       setExpense((prev) => [
+  //         ...prev,
+  //         { amount: parseFloat(amount), description },
+  //       ]);
+  //     }
+  //     setAmount("");
+  //     setDescription("");
+  //     setShowAddTransaction(false);
+  //   } else {
+  //     alert("Please enter a valid amount and description.");
+  //   }
+  // };
 
   return (
     <Box
@@ -144,10 +169,10 @@ const Home = () => {
       )}
       <Box sx={{ width: "100%", maxWidth: "100%" }}>
         {/* <TransactionShow /> */}
-        <SelectActionCard />
+        <SelectActionCard onCardClick={handleCardClick} />
       </Box>
       <Box sx={{ width: "100%", maxWidth: "100%" }}>
-        <TransactionShow />
+        <TransactionShow selectedType={selectedType} />
       </Box>
     </Box>
   );

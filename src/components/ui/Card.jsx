@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import { FinanceState } from "../../context/FinanceProvider";
 
-function SelectActionCard() {
+function SelectActionCard({ onCardClick }) {
   const { income, expense } = FinanceState();
   const totalIncome = income.reduce((sum, item) => sum + item.amount, 0);
   const totalExpense = expense.reduce((sum, item) => sum + item.amount, 0);
@@ -24,12 +24,16 @@ function SelectActionCard() {
       }}
     >
       <Card
+        style={{ cursor: "pointer" }}
         sx={{
           minWidth: 275,
           maxWidth: "100%",
           backgroundColor: "#e8f5e9",
           flex: 1,
+          cursor: "pointer",
         }}
+        onClick={() => onCardClick("income")}
+        onDoubleClick={() => onCardClick(null)}
       >
         <CardActionArea>
           <CardContent>
@@ -48,7 +52,10 @@ function SelectActionCard() {
           maxWidth: "100%",
           backgroundColor: "#ffebee",
           flex: 1,
+          cursor: "pointer",
         }}
+        onClick={() => onCardClick("expense")} // Handle click for expense
+        onDoubleClick={() => onCardClick(null)}
       >
         <CardActionArea>
           <CardContent>

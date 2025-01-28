@@ -3,18 +3,16 @@ import { FinanceState } from "../context/FinanceProvider";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const TransactionShow = () => {
+const TransactionShow = ({ selectedType }) => {
   const { expense, setExpense, income, setIncome } = FinanceState();
   const [searchQuery, setSearchQuery] = useState("");
 
   // Filter transactions based on the search query
-  const filteredTransactions = {
-    income: income.filter((item) =>
+  const filteredTransactions = (type) => {
+    const transactions = type === "income" ? income : expense;
+    return transactions.filter((item) =>
       item.description.toLowerCase().includes(searchQuery.toLowerCase())
-    ),
-    expense: expense.filter((item) =>
-      item.description.toLowerCase().includes(searchQuery.toLowerCase())
-    ),
+    );
   };
 
   // Function to delete a transaction
@@ -101,6 +99,43 @@ const TransactionShow = () => {
         sx={{ mb: 3 }}
       />
       <Box sx={{ width: "100%", maxWidth: 600 }}>
+        {selectedType ? (
+          // Render filtered transactions based on selected type
+          filteredTransactions(selectedType).length > 0 ? (
+            filteredTransactions(selectedType).map((item, index) => (
+              <TransactionItem
+                key={index}
+                type={selectedType}
+                item={item}
+                index={index}
+              />
+            ))
+          ) : (
+            <Typography>No transactions found.</Typography>
+          )
+        ) : (
+          // Render all transactions if no type is selected
+          <>
+            {income.map((item, index) => (
+              <TransactionItem
+                key={index}
+                type="income"
+                item={item}
+                index={index}
+              />
+            ))}
+            {expense.map((item, index) => (
+              <TransactionItem
+                key={index}
+                type="expense"
+                item={item}
+                index={index}
+              />
+            ))}
+          </>
+        )}
+      </Box>
+      {/* <Box sx={{ width: "100%", maxWidth: 600 }}>
         {filteredTransactions.income.length > 0
           ? filteredTransactions.income.map((item, index) => (
               <TransactionItem
@@ -122,9 +157,12 @@ const TransactionShow = () => {
               />
             ))
           : null}
-      </Box>
+      </Box> */}
     </Box>
   );
+};
+TransactionShow.propTypes = {
+  selectedType: PropTypes.string,
 };
 
 export default TransactionShow;

@@ -42,6 +42,7 @@ State is used to store transaction data, the selected transaction type (income/e
 ```js
 const [transactions, setTransactions] = useState([]);
 const [selectedType, setSelectedType] = useState('all');
+```
 
 ## Features
 

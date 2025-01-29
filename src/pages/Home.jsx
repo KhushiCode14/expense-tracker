@@ -46,26 +46,6 @@ const Home = () => {
   const handleCardClick = (type) => {
     setSelectedType(type); // Set the selected type (income or expense)
   };
-  // const handleTransaction = (type) => {
-  //   if (amount > 0 && description.trim()) {
-  //     if (type === "income") {
-  //       setIncome((prev) => [
-  //         ...prev,
-  //         { amount: parseFloat(amount), description },
-  //       ]);
-  //     } else {
-  //       setExpense((prev) => [
-  //         ...prev,
-  //         { amount: parseFloat(amount), description },
-  //       ]);
-  //     }
-  //     setAmount("");
-  //     setDescription("");
-  //     setShowAddTransaction(false);
-  //   } else {
-  //     alert("Please enter a valid amount and description.");
-  //   }
-  // };
 
   return (
     <Box
